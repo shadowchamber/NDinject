@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>Dinject</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Dynamics Dependency Container.
+/// </summary>
+public class Dinject
+{
+    private Map dependencies;
+    private Map typeNameToIdMap;
+    private Map instances;
+    private Set singletones;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Standard controller.
+    /// </summary>
+    public void new()
+    {
+        dependencies = new Map(Types::Integer, Types::Integer);
+        typeNameToIdMap = new Map(Types::String, Types::Integer);
+        singletones = new Set(Types::Integer);
+        instances = new Map(Types::Integer, Types::Class);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>withRegistered</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Assigns dependency and returns container object.
+    /// </summary>
+    /// <param name = "_interface">Interface id.</param>
+    /// <param name = "_implementation">Implementation class id.</param>
+    /// <param name = "_singleton">true if single instance required.</param>
+    /// <returns>Dinject object.</returns>
+    public Dinject withRegistered(ClassId _interface, ClassId _implementation, boolean _singleton = false)
+    {
+        this.register(_interface, _implementation, _singleton);
+
+        return this;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>register</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Registers a new dependency.
+    /// </summary>
+    /// <param name = "_interface">Interface id.</param>
+    /// <param name = "_implementation">Implementation class id.</param>
+    /// <param name = "_singleton">true if single instance required.</param>
+    public void register(ClassId _interface, ClassId _implementation, boolean _singleton = false)
+    {
+        dependencies.add(_interface, _implementation);
+
+        SysDictClass dictClass = new SysDictClass(_interface);
+
+        typeNameToIdMap.add(dictClass.name(), _interface);
+
+        if (_singleton)
+        {
+            singletones.add(_interface);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getInstance</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets instance of the required service.
+    /// </summary>
+    /// <param name = "_interface">Interface id.</param>
+    /// <returns>Initialized object.</returns>
+    public Object getInstance(ClassId _interface)
+    {
+        Object res;
+
+        ClassId classId = dependencies.lookup(_interface);
+
+        SysDictClass dictClass = new SysDictClass(classId);
+
+        Set methods = dictClass.methods();
+
+        SetEnumerator setEnumerator = methods.getEnumerator();
+
+        SysDictMethod dictMethod = null;
+
+        while (setEnumerator.moveNext())
+        {
+            dictMethod = setEnumerator.current();
+
+            if (dictMethod.name() == 'new')
+            {
+                break;
+            }
+
+            dictMethod = null;
+        }
+
+        if (dictMethod == null)
+        {
+            res = dictClass.makeObject();
+
+            return res;
+        }
+
+        int i;
+        Array args = new Array(Types::Class);
+
+        for(i = 1; i <= dictMethod.parameterCnt(); i++)
+        {
+            //str name = dictMethod.parameterName(i);
+            str typeName = dictMethod.parameterTypeName(i);
+
+            int intfId = typeNameToIdMap.lookup(typeName);
+            //int newId = dependencies.lookup(intfId);
+
+            Object obj = null;
+
+            if (singletones.in(intfId))
+            {
+                Object iobj = instances.lookup(intfId);
+
+                if (iobj == null)
+                {
+                    obj = this.getInstance(intfId);
+
+                    instances.add(intfId, obj);
+                }
+                else
+                {
+                    obj = iobj;
+                }
+            }
+
+            obj = this.getInstance(intfId);
+
+            args.value(i, obj);
+        }
+
+        if (dictMethod.parameterCnt() == 0)
+        {
+            res = dictClass.makeObject();
+        }
+        else if (dictMethod.parameterCnt() == 1)
+        {
+            res = dictClass.makeObject(args.value(1));
+        }
+        else if (dictMethod.parameterCnt() == 2)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2));
+        }
+        else if (dictMethod.parameterCnt() == 3)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3));
+        }
+        else if (dictMethod.parameterCnt() == 4)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4));
+        }
+        else if (dictMethod.parameterCnt() == 5)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5));
+        }
+        else if (dictMethod.parameterCnt() == 6)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6));
+        }
+        else if (dictMethod.parameterCnt() == 7)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7));
+        }
+        else if (dictMethod.parameterCnt() == 8)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7), args.value(8));
+        }
+        else if (dictMethod.parameterCnt() == 9)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7), args.value(8), args.value(9));
+        }
+        else if (dictMethod.parameterCnt() == 10)
+        {
+            res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7), args.value(8), args.value(9), args.value(10));
+        }
+        else
+        {
+            throw Error('more than 10 args is not supported');
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
