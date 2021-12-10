@@ -1,2 +1,1 @@
-# D365Template
-D365 Template
+# Dynamics 365 FFO Dependency injection container
