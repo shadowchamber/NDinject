@@ -1,1 +1,2 @@
-# Dynamics 365 FFO Dependency injection container
+# Dinject
+Dynamics 365 FFO Dependency injection container
