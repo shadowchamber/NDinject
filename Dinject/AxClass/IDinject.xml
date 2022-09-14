@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IDinject</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public interface IDinject
+{
+}
+
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>get</Name>
+				<Source><![CDATA[
+    object get(ClassName _className){}
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
