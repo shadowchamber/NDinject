@@ -5,3 +5,5 @@
 /Resources
 /XppMetadata
 /bin
+*.suo
+/Projects/Dinject/.vs
