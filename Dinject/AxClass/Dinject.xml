@@ -4,12 +4,11 @@
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
-/// Dynamics Dependency Container.
+/// Inversion of control container
 /// </summary>
-public class Dinject
+public class Dinject implements IDinject
 {
     private Map dependencies;
-    private Map typeNameToIdMap;
     private Map instances;
     private Set singletones;
 
@@ -24,16 +23,16 @@ public class Dinject
     /// </summary>
     public void new()
     {
-        dependencies = new Map(Types::Integer, Types::Integer);
-        typeNameToIdMap = new Map(Types::String, Types::Integer);
-        singletones = new Set(Types::Integer);
-        instances = new Map(Types::Integer, Types::Class);
+        dependencies = new Map(Types::String, Types::String);
+        singletones = new Set(Types::String);
+        instances = new Map(Types::String, Types::Class);
+        instances.add(classStr(IDinject), this);
     }
 
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>withRegistered</Name>
+				<Name>withBound</Name>
 				<Source><![CDATA[
     /// <summary>
     /// Assigns dependency and returns container object.
@@ -41,18 +40,34 @@ public class Dinject
     /// <param name = "_interface">Interface id.</param>
     /// <param name = "_implementation">Implementation class id.</param>
     /// <param name = "_singleton">true if single instance required.</param>
-    /// <returns>Dinject object.</returns>
-    public Dinject withRegistered(ClassId _interface, ClassId _implementation, boolean _singleton = false)
+    /// <returns>GwsIAMIoc object.</returns>
+    public Dinject withBound(ClassName _interface, ClassName _implementation, boolean _singleton = false)
     {
-        this.register(_interface, _implementation, _singleton);
-
+        this.bind(_interface, _implementation, _singleton);
         return this;
     }
 
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>register</Name>
+				<Name>withSelfBound</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Assigns dependency and returns container object.
+    /// </summary>
+    /// <param name = "_implementation">Implementation class id.</param>
+    /// <param name = "_singleton">true if single instance required.</param>
+    /// <returns>GwsIAMIoc object.</returns>
+    public Dinject withSelfBound(ClassName _implementation, boolean _singleton = false)
+    {
+        this.bind(_implementation, _implementation, _singleton);
+        return this;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>bind</Name>
 				<Source><![CDATA[
     /// <summary>
     /// Registers a new dependency.
@@ -60,14 +75,10 @@ public class Dinject
     /// <param name = "_interface">Interface id.</param>
     /// <param name = "_implementation">Implementation class id.</param>
     /// <param name = "_singleton">true if single instance required.</param>
-    public void register(ClassId _interface, ClassId _implementation, boolean _singleton = false)
+    public void bind(ClassName _interface, ClassName _implementation, boolean _singleton = false)
     {
         dependencies.add(_interface, _implementation);
-
-        SysDictClass dictClass = new SysDictClass(_interface);
-
-        typeNameToIdMap.add(dictClass.name(), _interface);
-
+        SysDictClass dictClass = new SysDictClass(className2Id(_interface));
         if (_singleton)
         {
             singletones.add(_interface);
@@ -77,121 +88,147 @@ public class Dinject
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>getInstance</Name>
+				<Name>get</Name>
 				<Source><![CDATA[
     /// <summary>
     /// Gets instance of the required service.
     /// </summary>
     /// <param name = "_interface">Interface id.</param>
     /// <returns>Initialized object.</returns>
-    public Object getInstance(ClassId _interface)
+    public object get(ClassName _interface)
     {
         Object res;
+        ClassName implName = dependencies.exists(_interface) ? dependencies.lookup(_interface) : _interface;
+        ClassId implClassId = className2Id(implName);
+        SysDictClass dictImpl = new SysDictClass(implClassId);
 
-        ClassId classId = dependencies.lookup(_interface);
+        if (dictImpl.isInterface())
+        {
+            SysDictClass dictClass = new SysDictClass(className2Id(_interface));
+            List implemented = dictClass.implementedBy();
+            ListEnumerator enumerator = implemented.getEnumerator();
 
-        SysDictClass dictClass = new SysDictClass(classId);
+            while (enumerator.moveNext())
+            {
+                if (implClassId == enumerator.current())
+                {
+                    continue;
+                }
 
+                dictImpl = new SysDictClass(enumerator.current());
+                str iname = dictImpl.name();
+                str ending = strLen(iname) < 4 ? '' : subStr(iname, strLen(iname) - 3, 4);
+
+                if (dictImpl.isInterface()
+                    || ending == 'Mock')
+                {
+                    continue;
+                }
+
+                implClassId = enumerator.current();
+
+                break;
+            }
+        }
+
+        SysDictClass dictClass = new SysDictClass(implClassId);
         Set methods = dictClass.methods();
-
         SetEnumerator setEnumerator = methods.getEnumerator();
-
         SysDictMethod dictMethod = null;
-
         while (setEnumerator.moveNext())
         {
             dictMethod = setEnumerator.current();
-
             if (dictMethod.name() == 'new')
             {
                 break;
             }
-
             dictMethod = null;
         }
-
         if (dictMethod == null)
         {
             res = dictClass.makeObject();
-
             return res;
         }
-
         int i;
         Array args = new Array(Types::Class);
-
+        int argsCount = 0;
         for(i = 1; i <= dictMethod.parameterCnt(); i++)
         {
-            //str name = dictMethod.parameterName(i);
             str typeName = dictMethod.parameterTypeName(i);
-
-            int intfId = typeNameToIdMap.lookup(typeName);
-            //int newId = dependencies.lookup(intfId);
-
             Object obj = null;
-
-            if (singletones.in(intfId))
+            if (singletones.in(typeName))
             {
-                Object iobj = instances.lookup(intfId);
-
-                if (iobj == null)
+                if (instances.exists(typeName))
                 {
-                    obj = this.getInstance(intfId);
-
-                    instances.add(intfId, obj);
+                    Object iobj = instances.lookup(typeName);
+                    if (iobj != null)
+                    {
+                        obj = iobj;
+                        args.value(i, obj);
+                        argsCount++;
+                    }
+                    else
+                    {
+                        throw error('unexpected error');
+                    }
                 }
                 else
                 {
-                    obj = iobj;
+                    obj = this.get(typeName);
+                    instances.add(typeName, obj);
+                    args.value(i, obj);
+                    argsCount++;
                 }
             }
-
-            obj = this.getInstance(intfId);
-
-            args.value(i, obj);
+            else
+            {
+                obj = this.get(typeName);
+                args.value(i, obj);
+                argsCount++;
+            }
         }
 
-        if (dictMethod.parameterCnt() == 0)
+        if (argsCount == 0)
         {
             res = dictClass.makeObject();
         }
-        else if (dictMethod.parameterCnt() == 1)
+        else if (argsCount == 1)
         {
             res = dictClass.makeObject(args.value(1));
         }
-        else if (dictMethod.parameterCnt() == 2)
+        else if (argsCount == 2)
         {
             res = dictClass.makeObject(args.value(1), args.value(2));
         }
-        else if (dictMethod.parameterCnt() == 3)
+        else if (argsCount == 3)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3));
         }
-        else if (dictMethod.parameterCnt() == 4)
+        else if (argsCount == 4)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4));
         }
-        else if (dictMethod.parameterCnt() == 5)
+        else if (argsCount == 5)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5));
         }
-        else if (dictMethod.parameterCnt() == 6)
+        else if (argsCount == 6)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6));
         }
-        else if (dictMethod.parameterCnt() == 7)
+        else if (argsCount == 7)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7));
         }
-        else if (dictMethod.parameterCnt() == 8)
+        else if (argsCount == 8)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7), args.value(8));
         }
-        else if (dictMethod.parameterCnt() == 9)
+        else if (argsCount == 9)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7), args.value(8), args.value(9));
         }
-        else if (dictMethod.parameterCnt() == 10)
+        else if (argsCount == 10)
         {
             res = dictClass.makeObject(args.value(1), args.value(2), args.value(3), args.value(4), args.value(5), args.value(6), args.value(7), args.value(8), args.value(9), args.value(10));
         }
@@ -199,7 +236,6 @@ public class Dinject
         {
             throw Error('more than 10 args is not supported');
         }
-
         return res;
     }
 
