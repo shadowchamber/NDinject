@@ -169,7 +169,7 @@ public class NDinject implements INDinject
                     }
                     else
                     {
-                        throw error('unexpected error');
+                        throw error("@NDinject:ErrorUnexpectedError");
                     }
                 }
                 else
@@ -234,7 +234,7 @@ public class NDinject implements INDinject
         }
         else
         {
-            throw Error('more than 10 args is not supported');
+            throw Error("@NDinject:ErrorMoreThan10ArgsIsNotSupportedYet");
         }
         return res;
     }

@@ -1,0 +1,2 @@
+﻿ErrorMoreThan10ArgsIsNotSupportedYet=More than 10 args is not supported yet
+ErrorUnexpectedError=Unexpected error

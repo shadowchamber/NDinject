@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
+    <Folder Include="Label Files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AxClass\INDinject">
@@ -44,6 +45,16 @@
       <SubType>Content</SubType>
       <Name>NDinject</Name>
       <Link>Classes\NDinject</Link>
+    </Content>
+    <Content Include="AxLabelFile\NDinject_en-US">
+      <SubType>Content</SubType>
+      <Name>NDinject_en-US</Name>
+      <Link>Label Files\NDinject_en-US</Link>
+    </Content>
+    <Content Include="NDinject.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>NDinject.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\NDinject_en-US</DependentUpon>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />

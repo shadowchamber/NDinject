@@ -8,3 +8,4 @@
 *.suo
 /Projects/Dinject/.vs
 /BuildProjectResult.xml
+/BPCheck.xml
