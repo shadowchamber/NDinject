@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
-    <Model>Dinject</Model>
+    <Model>NDinject</Model>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <OutputPath>bin</OutputPath>
     <SchemaVersion>2.0</SchemaVersion>
@@ -35,15 +35,15 @@
     <Folder Include="Classes\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AxClass\Dinject">
+    <Content Include="AxClass\INDinject">
       <SubType>Content</SubType>
-      <Name>Dinject</Name>
-      <Link>Classes\Dinject</Link>
+      <Name>INDinject</Name>
+      <Link>Classes\INDinject</Link>
     </Content>
-    <Content Include="AxClass\IDinject">
+    <Content Include="AxClass\NDinject">
       <SubType>Content</SubType>
-      <Name>IDinject</Name>
-      <Link>Classes\IDinject</Link>
+      <Name>NDinject</Name>
+      <Link>Classes\NDinject</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />

@@ -3,12 +3,12 @@
 	<AppliedUpdates xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
 	<Customization>Allow</Customization>
 	<Description>https://github.com/shadowchamber/Dinject.git</Description>
-	<DisplayName>Dinject</DisplayName>
+	<DisplayName>NDinject</DisplayName>
 	<Id>895972673</Id>
 	<InternalsVisibleTo xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
 	<Layer>8</Layer>
 	<Locked>false</Locked>
-	<ModelModule>Dinject</ModelModule>
+	<ModelModule>NDinject</ModelModule>
 	<ModelReferences xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
 		i:nil="true" />
 	<ModuleReferences xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
@@ -17,7 +17,7 @@
 		<d2p1:string>ApplicationPlatform</d2p1:string>
 		<d2p1:string>ApplicationSuite</d2p1:string>
 	</ModuleReferences>
-	<Name>Dinject</Name>
+	<Name>NDinject</Name>
 	<Publisher>shadowchamber</Publisher>
 	<SolutionId>00000000-0000-0000-0000-000000000000</SolutionId>
 	<VersionBuild>0</VersionBuild>

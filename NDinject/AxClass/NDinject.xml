@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>Dinject</Name>
+	<Name>NDinject</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Inversion of control container
 /// </summary>
-public class Dinject implements IDinject
+public class NDinject implements INDinject
 {
     private Map dependencies;
     private Map instances;
@@ -26,7 +26,7 @@ public class Dinject implements IDinject
         dependencies = new Map(Types::String, Types::String);
         singletones = new Set(Types::String);
         instances = new Map(Types::String, Types::Class);
-        instances.add(classStr(IDinject), this);
+        instances.add(classStr(INDinject), this);
     }
 
 ]]></Source>
@@ -40,8 +40,8 @@ public class Dinject implements IDinject
     /// <param name = "_interface">Interface id.</param>
     /// <param name = "_implementation">Implementation class id.</param>
     /// <param name = "_singleton">true if single instance required.</param>
-    /// <returns>GwsIAMIoc object.</returns>
-    public Dinject withBound(ClassName _interface, ClassName _implementation, boolean _singleton = false)
+    /// <returns>NDinject object.</returns>
+    public NDinject withBound(ClassName _interface, ClassName _implementation, boolean _singleton = false)
     {
         this.bind(_interface, _implementation, _singleton);
         return this;
@@ -55,10 +55,10 @@ public class Dinject implements IDinject
     /// <summary>
     /// Assigns dependency and returns container object.
     /// </summary>
-    /// <param name = "_implementation">Implementation class id.</param>
+    /// <param name = "_implementation">Implementation class name.</param>
     /// <param name = "_singleton">true if single instance required.</param>
-    /// <returns>GwsIAMIoc object.</returns>
-    public Dinject withSelfBound(ClassName _implementation, boolean _singleton = false)
+    /// <returns>NDInject object.</returns>
+    public NDinject withSelfBound(ClassName _implementation, boolean _singleton = false)
     {
         this.bind(_implementation, _implementation, _singleton);
         return this;
@@ -72,8 +72,8 @@ public class Dinject implements IDinject
     /// <summary>
     /// Registers a new dependency.
     /// </summary>
-    /// <param name = "_interface">Interface id.</param>
-    /// <param name = "_implementation">Implementation class id.</param>
+    /// <param name = "_interface">Interface name.</param>
+    /// <param name = "_implementation">Implementation class name.</param>
     /// <param name = "_singleton">true if single instance required.</param>
     public void bind(ClassName _interface, ClassName _implementation, boolean _singleton = false)
     {
@@ -93,7 +93,7 @@ public class Dinject implements IDinject
     /// <summary>
     /// Gets instance of the required service.
     /// </summary>
-    /// <param name = "_interface">Interface id.</param>
+    /// <param name = "_interface">Interface name.</param>
     /// <returns>Initialized object.</returns>
     public object get(ClassName _interface)
     {
