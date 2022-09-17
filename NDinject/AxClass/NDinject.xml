@@ -169,37 +169,10 @@ public class NDinject implements INDinject
         for(i = 1; i <= dictMethod.parameterCnt(); i++)
         {
             str typeName = dictMethod.parameterTypeName(i);
-            Object obj = null;
-            if (singletones.in(typeName))
-            {
-                if (instances.exists(typeName))
-                {
-                    Object iobj = instances.lookup(typeName);
-                    if (iobj != null)
-                    {
-                        obj = iobj;
-                        args.value(i, obj);
-                        argsCount++;
-                    }
-                    else
-                    {
-                        throw error("@NDinject:ErrorUnexpectedError");
-                    }
-                }
-                else
-                {
-                    obj = this.get(typeName);
-                    instances.add(typeName, obj);
-                    args.value(i, obj);
-                    argsCount++;
-                }
-            }
-            else
-            {
-                obj = this.get(typeName);
-                args.value(i, obj);
-                argsCount++;
-            }
+            Object obj = this.get(typeName);
+            obj = this.get(typeName);
+            args.value(i, obj);
+            argsCount++;
         }
 
         if (argsCount == 0)
