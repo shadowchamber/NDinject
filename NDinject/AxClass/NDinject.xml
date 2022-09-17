@@ -97,6 +97,16 @@ public class NDinject implements INDinject
     /// <returns>Initialized object.</returns>
     public object get(ClassName _interface)
     {
+        if (singletones.in(_interface)
+            && instances.exists(_interface))
+        {
+            Object iobj = instances.lookup(_interface);
+            if (iobj != null)
+            {
+                return iobj;
+            }
+        }
+
         Object res;
         ClassName implName = dependencies.exists(_interface) ? dependencies.lookup(_interface) : _interface;
         ClassId implClassId = className2Id(implName);
@@ -240,6 +250,13 @@ public class NDinject implements INDinject
         {
             throw Error("@NDinject:ErrorMoreThan10ArgsIsNotSupportedYet");
         }
+
+        if (singletones.in(_interface)
+            && !instances.exists(_interface))
+        {
+            instances.add(_interface, res);
+        }
+
         return res;
     }
 
