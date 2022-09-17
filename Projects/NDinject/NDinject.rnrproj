@@ -11,7 +11,7 @@
     <GenerateCrossReferences>True</GenerateCrossReferences>
     <RunAppCheckerRules>False</RunAppCheckerRules>
     <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
-    <ProjectGuid>{18ff67d2-4dd9-4458-8fc1-198492be81b4}</ProjectGuid>
+    <ProjectGuid>{66c8636f-5b46-4908-ae26-755a82d0ddd4}</ProjectGuid>
     <Name>Dinject</Name>
     <RootNamespace>Dinject</RootNamespace>
     <StartupType>Class</StartupType>

@@ -135,6 +135,7 @@ public class NDinject implements INDinject
         Set methods = dictClass.methods();
         SetEnumerator setEnumerator = methods.getEnumerator();
         SysDictMethod dictMethod = null;
+
         while (setEnumerator.moveNext())
         {
             dictMethod = setEnumerator.current();
@@ -144,14 +145,17 @@ public class NDinject implements INDinject
             }
             dictMethod = null;
         }
+
         if (dictMethod == null)
         {
             res = dictClass.makeObject();
             return res;
         }
+
         int i;
         Array args = new Array(Types::Class);
         int argsCount = 0;
+
         for(i = 1; i <= dictMethod.parameterCnt(); i++)
         {
             str typeName = dictMethod.parameterTypeName(i);
