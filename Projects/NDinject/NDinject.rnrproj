@@ -36,15 +36,15 @@
     <Folder Include="Label Files\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AxClass\INDinject">
+    <Content Include="AxClass\IinjectND">
       <SubType>Content</SubType>
-      <Name>INDinject</Name>
-      <Link>Classes\INDinject</Link>
+      <Name>IInjectND</Name>
+      <Link>Classes\IinjectND</Link>
     </Content>
-    <Content Include="AxClass\NDinject">
+    <Content Include="AxClass\InjectND">
       <SubType>Content</SubType>
-      <Name>NDinject</Name>
-      <Link>Classes\NDinject</Link>
+      <Name>InjectND</Name>
+      <Link>Classes\InjectND</Link>
     </Content>
     <Content Include="AxLabelFile\NDinject_en-US">
       <SubType>Content</SubType>
