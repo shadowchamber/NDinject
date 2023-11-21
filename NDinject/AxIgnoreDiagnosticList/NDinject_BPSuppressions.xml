@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IgnoreDiagnostics>
+  <Name>NDinject_BPSuppressions</Name>
+  <Items>
+    <Diagnostic>
+      <DiagnosticType>VisualStudioIntegration</DiagnosticType>
+      <Severity>Informational</Severity>
+      <Path>K:\AosService\PackagesLocalDirectory\bin\xppbp.exe</Path>
+      <Moniker>K:\AosService\PackagesLocalDirectory\bin\xppbp.exe -metadata="K:\AosService\PackagesLocalDirectory" -compilerMetadata="K:\AosService\PackagesLocalDirectory" -referenceFolder="K:\AosService\PackagesLocalDirectory" -all -module="NDinject" -model="NDinject" -xmlLog="K:\AosService\PackagesLocalDirectory\NDinject\BPCheck.NDinject.xml" </Moniker>
+      <Justification>Automatically suppressed BP. Recommended to resolve manually.</Justification>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>ExternalReference</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://Reference/Microsoft.Commerce.Flighting.Common</Path>
+      <Moniker>AssemblyFileNotFound</Moniker>
+      <Justification>Automatically suppressed BuildModelResult. Recommended to resolve manually.</Justification>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>ExternalReference</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://Reference/Azure.Core</Path>
+      <Moniker>AssemblyFileNotFound</Moniker>
+      <Justification>Automatically suppressed BuildModelResult. Recommended to resolve manually.</Justification>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>ExternalReference</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://Reference/Microsoft.Dynamics___vices.PricingEngine</Path>
+      <Moniker>AssemblyFileNotFound</Moniker>
+      <Justification>Automatically suppressed BuildModelResult. Recommended to resolve manually.</Justification>
+    </Diagnostic>
+  </Items>
+</IgnoreDiagnostics>

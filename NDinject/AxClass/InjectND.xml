@@ -92,7 +92,6 @@ public class InjectND implements IInjectND
     public void bind(ClassName _interface, ClassName _implementation, boolean _singleton = false)
     {
         dependencies.add(_interface, _implementation);
-        SysDictClass dictClass = new SysDictClass(className2Id(_interface));
         if (_singleton)
         {
             singletones.add(_interface);
