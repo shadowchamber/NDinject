@@ -36,10 +36,10 @@
     <Folder Include="Label Files\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AxClass\IinjectND">
+    <Content Include="AxClass\IInjectND">
       <SubType>Content</SubType>
       <Name>IInjectND</Name>
-      <Link>Classes\IinjectND</Link>
+      <Link>Classes\IInjectND</Link>
     </Content>
     <Content Include="AxClass\InjectND">
       <SubType>Content</SubType>

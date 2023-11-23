@@ -9,6 +9,7 @@
 public interface IInjectND
 {
 }
+
 ]]></Declaration>
 		<Methods>
 			<Method>
