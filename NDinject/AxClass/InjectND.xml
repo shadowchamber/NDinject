@@ -40,7 +40,38 @@ public class InjectND implements IInjectND
     /// <returns>dependency container as INDinject</returns>
     public static IInjectND construct()
     {
-        return new InjectND();
+        InjectND res = new InjectND();
+
+        res.init();
+        res.initMocks();
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Init default bindings
+    /// </summary>
+    public void init()
+    {
+        // Method to extend to have default bindings
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initMocks</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Init mock bindings
+    /// </summary>
+    public void initMocks()
+    {
+        // Method to extend to have mock bindings
     }
 
 ]]></Source>
