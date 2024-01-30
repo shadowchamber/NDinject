@@ -5,7 +5,10 @@
 	<Description>https://github.com/shadowchamber/Dinject.git</Description>
 	<DisplayName>NDinject</DisplayName>
 	<Id>895972673</Id>
-	<InternalsVisibleTo xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+	<InternalsVisibleTo xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+		<d2p1:string>NDinjectExamples</d2p1:string>
+		<d2p1:string>NDinjectTests</d2p1:string>
+	</InternalsVisibleTo>
 	<Layer>8</Layer>
 	<Locked>false</Locked>
 	<ModelModule>NDinject</ModelModule>

@@ -9,9 +9,15 @@
 public interface IInjectND
 {
 }
-
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>withBound</Name>
+				<Source><![CDATA[
+    InjectND withBound(ClassName _interface, ClassName _implementation, boolean _singleton = false) {}
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>get</Name>
 				<Source><![CDATA[

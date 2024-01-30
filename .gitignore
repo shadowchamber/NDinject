@@ -11,3 +11,5 @@
 /BPCheck.xml
 /BuildModelResult.err.xml
 *.xref
+/Projects/NDinject/obj/Debug/NDinject.rnrproj.AssemblyReference.cache
+/BuildProjectResult.err.xml
